@@ -1,0 +1,40 @@
+name: Validate skip test parser
+
+on:
+  pull_request:
+
+jobs:
+  test:
+    name: Run parse-test-config tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for skip_tests changes
+        id: changes
+        run: |
+          if git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -q '^skip_tests/'; then
+            echo "skip_tests_changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip_tests_changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Install yq
+        if: steps.changes.outputs.skip_tests_changed == 'true'
+        uses: mikefarah/yq@v4
+
+      - name: Make scripts executable
+        if: steps.changes.outputs.skip_tests_changed == 'true'
+        run: chmod +x skip_tests/*.sh
+
+      - name: Run tests
+        if: steps.changes.outputs.skip_tests_changed == 'true'
+        run: ./skip_tests/run_tests.sh
+
+      - name: Skip tests (no changes in skip_tests/)
+        if: steps.changes.outputs.skip_tests_changed == 'false'
+        run: echo "No changes in skip_tests/ folder, skipping tests"
