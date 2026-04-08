@@ -7,7 +7,7 @@ Service Mesh repositories from the OpenShift Prow API and generates comprehensiv
 
 Collection modes:
 - Default: Last 100 completed executions + all pending jobs
-- By count: Specific number of completed jobs (--count N)
+- By count: Specific number dsdof completed jobs (--count N)
 - By days: Historical data for specific time period (--days N)
 - Interactive: Ask user for preference (--interactive)
 
