@@ -1,0 +1,24 @@
+name: Skip parser test
+
+on:
+  pull_request:
+    paths:
+      - 'skip_tests/**'
+
+jobs:
+  test:
+    name: Run parse-test-config tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install yq
+        uses: mikefarah/yq@v4
+
+      - name: Make scripts executable
+        run: chmod +x skip_tests/*.sh
+
+      - name: Run tests
+        run: ./skip_tests/run_tests.sh
