@@ -22,7 +22,7 @@ test_suites:
       - name: "TestAuthZCheck"
         reason: ""
         skip_in: ['downstream','midstream_sail']
-      - name: "TestKubeInject"
+      - name: "TestKubeInjectfsf"
         reason: ""
         skip_in: ['downstream','midstream_sail']
       - name: "TestRevisionTags"
